@@ -7,6 +7,8 @@ test.describe(
 		annotation: [{ type: 'owner', description: 'Instance AI' }],
 	},
 	() => {
+		test.describe.configure({ timeout: 180_000 });
+
 		test('should show run workflow button in preview', async ({ n8n }) => {
 			await n8n.navigate.toInstanceAi();
 

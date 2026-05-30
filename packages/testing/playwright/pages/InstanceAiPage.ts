@@ -203,6 +203,17 @@ export class InstanceAiPage extends BasePage {
 		return this.getPreviewCanvas().getByTestId('execute-workflow-button');
 	}
 
+	async runPreviewWorkflow(): Promise<void> {
+		const runButton = this.getPreviewRunWorkflowButton();
+		const approvalButton = this.getConfirmApproveButton();
+		await runButton.or(approvalButton).first().waitFor({ state: 'visible', timeout: 30_000 });
+		if (await approvalButton.isVisible()) {
+			await approvalButton.click();
+		} else {
+			await runButton.click();
+		}
+	}
+
 	getPreviewNodeByName(nodeName: string): Locator {
 		return this.getPreviewCanvas().locator(
 			`[data-test-id="canvas-node"][data-node-name="${nodeName}"]`,
